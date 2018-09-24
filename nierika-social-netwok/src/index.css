@@ -17,3 +17,27 @@ body {
     #c6ffdd
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+.intro {
+  text-align: center;
+  color: whitesmoke;
+  font-family: 'Berkshire Swash', cursive;
+  padding: 0%;
+  background: #5433ff; /* fallback for old browsers */
+  background: #c31432; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #240b36,
+    #c31432
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #240b36,
+    #c31432
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.profile {
+  height: 90px;
+  width: 90px;
+  border-radius: 50%;
+}
