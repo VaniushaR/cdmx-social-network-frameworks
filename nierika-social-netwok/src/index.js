@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import firebase from 'firebase';
 import App from './App';
-import Splash from './Splash';
 import registerServiceWorker from './registerServiceWorker';
 
 firebase.initializeApp({
@@ -15,8 +14,14 @@ firebase.initializeApp({
   messagingSenderId: '795639442168'
 });
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+//ReactDOM.render(<App />, document.getElementById('root'));
+//registerServiceWorker();
 
-ReactDOM.render(<Splash />, document.getElementById('splash'));
+//ReactDOM.render(<Splash />, document.getElementById('root'), () => {
+//  setTimeout(() => {
+//    ReactDOM.render(<App />, document.getElementById('root'));
+//    window.history.pushState(null, 'Login', 'login');
+//  }, 3000);
+//});
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
