@@ -1,21 +1,21 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Lato', sans-serif;
-  background: #c6ffdd; /* fallback for old browsers */
+  align-content: center;
+  height: 100%;
+  width: 100%;
+  background: #5433ff; /* fallback for old browsers */
+  background: #c31432; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #f7797d,
-    #fbd786,
-    #c6ffdd
+    #240b36,
+    #c31432
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #f7797d,
-    #fbd786,
-    #c6ffdd
+    #240b36,
+    #c31432
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
 .intro {
   text-align: center;
   color: whitesmoke;

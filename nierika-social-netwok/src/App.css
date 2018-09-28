@@ -16,7 +16,6 @@ body {
     #c6ffdd
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-
 .App {
   text-align: center;
 }
@@ -26,21 +25,22 @@ body {
   height: 80px;
   background-position: bottom;
   border-radius: 50%;
+  padding: 0%;
 }
 
 .App-header {
   background-color: rgb(244, 102, 100);
   background-position: bottom;
   background-size: cover;
-
-  height: 150px;
-  padding: 5px;
+  height: 160px;
+  padding: 9px;
   color: white;
 }
 
 .App-title {
   font-size: 3em;
   font-family: 'Berkshire Swash', cursive;
+  padding: 0%;
 }
 
 .App-intro {
@@ -51,9 +51,8 @@ body {
   background-color: rgb(244, 102, 100);
   background-position: bottom;
   background-size: cover;
-
   height: 50px;
-  padding: 5px;
+  padding: 12px;
   color: white;
 }
 .profile {
