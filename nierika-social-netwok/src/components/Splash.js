@@ -1,15 +1,15 @@
 //Splash view components
 import React, { Component } from 'react';
 import Brand from '../assets/logoWolf.gif';
+import '../splash.css';
+import '../index.css';
 
 class Splash extends Component {
   render() {
     return (
-      <div className="main">
-        <div className="intro">
-          <img src={Brand} className="wolf" alt="WolfLogo made by" />
-          <h1 className="Brand">Vaniusha Co.</h1>
-        </div>
+      <div className="intro">
+        <img src={Brand} className="wolf" alt="WolfLogo made by" />
+        <h1 className="Brand">Vaniusha Co.</h1>
       </div>
     );
   }

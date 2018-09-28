@@ -1,6 +1,7 @@
 //Componente Login para ingresar con Facebook
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import Post from './Post';
 import Navbar from './Navbar';
 
 class Login extends Component {
@@ -8,15 +9,24 @@ class Login extends Component {
     super();
     this.state = {
       user: null,
-      pic: []
+      pictures: []
     };
     this.handleAuth = this.handleAuth.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
   }
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({ user }); //se resume user¨= user
     });
+    firebase
+      .database()
+      .ref('pictures')
+      .on('child_added', snapshot => {
+        this.setState({
+          pictures: this.state.pictures.concat(snapshot.val())
+        });
+      });
   }
   handleAuth() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -26,7 +36,6 @@ class Login extends Component {
       .then(result => console.log(`${result.user.email} ha iniciado sesión`))
       .catch(error => console.error(`Error ${error.code}: ${error.message}`));
   }
-
   handleLogout() {
     firebase
       .auth()
@@ -38,6 +47,52 @@ class Login extends Component {
         console.log(`Ha ocurrido un error ${error.code}: ${error.message}`)
       );
   }
+  handleUpload(event) {
+    const file = event.target.files[0];
+    //const storageRef = firebase.storage().ref(`Fotos/${file.name}`);
+    //const storageRef = firebase.storage().ref('/fotos/');
+    //const task = storageRef.put(file);
+    const storageRef = firebase.database().ref(`pictures/${file.name}`);
+    var task = storageRef.put(file);
+
+    task.on(
+      'state_changed',
+      snapshot => {
+        let percentage =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        this.setState({
+          uploadValue: percentage
+        });
+      },
+      error => {
+        console.error(error.message);
+      },
+      () =>
+        storageRef.getDownloadURL().then(url => {
+          const record = {
+            photoURL: this.state.user.photoURL,
+            displayName: this.state.user.displayName,
+            image: url
+            //image: task.snapshot.downloadURL
+          };
+          const databaseRef = firebase.database().ref('pictures');
+          const newPicture = databaseRef.push();
+          newPicture.set(record);
+        })
+    );
+  }
+
+  // Upload complete
+  /* console.log(task.snapshot);
+        storageRef
+          .child(file.name)
+          .getDownloadURL()
+          .then(url => {
+            this.setState({
+              picture: url
+            });
+          });
+          */
 
   renderLogin() {
     //if User login
@@ -75,6 +130,20 @@ class Login extends Component {
             </div>
           </nav>
           <Navbar />
+          <Post onUpload={this.handleUpload} />
+          {this.state.pictures.map(picture => (
+            <div>
+              <img width="520" src={picture.image} />
+              <br />
+              <img
+                width="520"
+                src={picture.photoURL}
+                alt={picture.displayName}
+              />
+              <br />
+              <span>{picture.displayName}</span>
+            </div>
+          ))}
         </div>
       );
     } else {

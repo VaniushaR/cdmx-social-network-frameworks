@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './assets/nierika.jpg';
 import './App.css';
+import 'semantic-ui-css/semantic.min.css';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Splash from './components/Splash';
