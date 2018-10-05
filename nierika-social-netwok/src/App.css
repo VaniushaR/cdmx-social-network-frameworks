@@ -1,20 +1,4 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Lato', sans-serif;
-  background: #c6ffdd; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #f7797d,
-    #fbd786,
-    #c6ffdd
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #f7797d,
-    #fbd786,
-    #c6ffdd
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .App {
   text-align: center;
@@ -32,7 +16,7 @@ body {
   background-color: rgb(244, 102, 100);
   background-position: bottom;
   background-size: cover;
-  height: 160px;
+  height: 180px;
   padding: 9px;
   color: white;
 }
@@ -49,7 +33,7 @@ body {
 
 .App-footer {
   background-color: rgb(244, 102, 100);
-  background-position: bottom;
+  align-content: center;
   background-size: cover;
   height: 50px;
   padding: 12px;
@@ -60,6 +44,56 @@ body {
   width: 60px;
   border-radius: 50%;
 }
+
+.facebook {
+  background-image: url(./assets/fb.png);
+  background-size: 250px, 105px;
+  width: 250px;
+  height: 41px;
+  border-radius: 6px;
+  border: none;
+}
+
+.google {
+  width: 250px;
+  height: 41px;
+  font-size: 0.8em;
+}
+
+.main {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+
+  background: #c6ffdd; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #f7797d,
+    #fbd786,
+    #c6ffdd
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #f7797d,
+    #fbd786,
+    #c6ffdd
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.welcome {
+  padding: 10%;
+  font-size: 1.5em;
+}
+.login {
+  padding: 15%;
+}
+
+.timeLine {
+  padding: 5%;
+  background-color: rgba(247, 244, 248, 0.349);
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

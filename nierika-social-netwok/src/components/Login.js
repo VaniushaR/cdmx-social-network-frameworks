@@ -1,8 +1,13 @@
 //Componente Login para ingresar con Facebook
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import Post from './Post';
+//import { Post } from './Post';
 import Navbar from './Navbar';
+import Publish from './Publish';
+import { db } from './Credentials';
+
+let currenUser;
+let picCurrenUser;
 
 class Login extends Component {
   constructor() {
@@ -11,9 +16,9 @@ class Login extends Component {
       user: null,
       pictures: []
     };
-    this.handleAuth = this.handleAuth.bind(this);
+    this.LoginFB = this.LoginFB.bind(this);
+    this.LoginGoogle = this.LoginGoogle.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
   }
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
@@ -28,7 +33,7 @@ class Login extends Component {
         });
       });
   }
-  handleAuth() {
+  LoginGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
@@ -36,6 +41,15 @@ class Login extends Component {
       .then(result => console.log(`${result.user.email} ha iniciado sesión`))
       .catch(error => console.error(`Error ${error.code}: ${error.message}`));
   }
+  LoginFB() {
+    let provider = new firebase.auth.FacebookAuthProvider();
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(result => console.log(`${result.user.email} ha iniciado sesión`))
+      .catch(error => console.error(`Error ${error.code}: ${error.message}`));
+  }
+
   handleLogout() {
     firebase
       .auth()
@@ -47,56 +61,28 @@ class Login extends Component {
         console.log(`Ha ocurrido un error ${error.code}: ${error.message}`)
       );
   }
-  handleUpload(event) {
-    const file = event.target.files[0];
-    //const storageRef = firebase.storage().ref(`Fotos/${file.name}`);
-    //const storageRef = firebase.storage().ref('/fotos/');
-    //const task = storageRef.put(file);
-    const storageRef = firebase.database().ref(`pictures/${file.name}`);
-    var task = storageRef.put(file);
-
-    task.on(
-      'state_changed',
-      snapshot => {
-        let percentage =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        this.setState({
-          uploadValue: percentage
-        });
-      },
-      error => {
-        console.error(error.message);
-      },
-      () =>
-        storageRef.getDownloadURL().then(url => {
-          const record = {
-            photoURL: this.state.user.photoURL,
-            displayName: this.state.user.displayName,
-            image: url
-            //image: task.snapshot.downloadURL
-          };
-          const databaseRef = firebase.database().ref('pictures');
-          const newPicture = databaseRef.push();
-          newPicture.set(record);
-        })
-    );
-  }
-
-  // Upload complete
-  /* console.log(task.snapshot);
-        storageRef
-          .child(file.name)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({
-              picture: url
-            });
-          });
-          */
 
   renderLogin() {
-    //if User login
+    //if User have an a succesful login, get the date and the user basic data
     if (this.state.user) {
+      const lastLogin = new Date();
+      currenUser = this.state.user.displayName;
+      console.log(currenUser);
+      picCurrenUser = this.state.user.photoURL;
+      console.log(picCurrenUser);
+      db.collection('users')
+        .add({
+          name: this.state.user.displayName,
+          email: this.state.user.email,
+          picture: this.state.user.photoURL,
+          lastLogin: lastLogin
+        })
+        .then(function(docRef) {
+          console.log('Document written with ID: ', docRef.id);
+        })
+        .catch(function(error) {
+          console.error('Error adding document: ', error);
+        });
       return (
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -129,36 +115,32 @@ class Login extends Component {
               </button>
             </div>
           </nav>
+
           <Navbar />
-          <Post onUpload={this.handleUpload} />
-          {this.state.pictures.map(picture => (
-            <div>
-              <img width="520" src={picture.image} />
-              <br />
-              <img
-                width="520"
-                src={picture.photoURL}
-                alt={picture.displayName}
-              />
-              <br />
-              <span>{picture.displayName}</span>
-            </div>
-          ))}
+
+          <Publish />
         </div>
       );
     } else {
-      //if user aren't log
+      //if user isn't log
       return (
-        <div>
-          <h2>Red Social para aprender y enseñar una Lengua Originaria</h2>
-          <h4>Inicia Sesión</h4>
-          <button
-            type="button"
-            onClick={this.handleAuth}
-            className="btn btn-primary"
-          >
-            Login con Google
-          </button>
+        <div className="main">
+          <h2 className="welcome">
+            Red Social para aprender y enseñar una Lengua Originaria
+          </h2>
+          <section className="login">
+            <h2>Inicia Sesión</h2>
+            <button
+              type="button"
+              onClick={this.LoginGoogle}
+              className="btn btn-danger google"
+            >
+              Login con Google
+            </button>
+            <br />
+            <br />
+            <button onClick={this.LoginFB} className="btn facebook" />
+          </section>
         </div>
       );
     }
@@ -170,11 +152,52 @@ class Login extends Component {
 }
 
 export default Login;
+export { currenUser, picCurrenUser };
+/*
 
-/*<button
-type="button"
-onClick={this.handleAuth}
-className="btn btn-primary"
->
-Login con Google
-</button> */
+handleUpload(event) {
+  const file = event.target.files[0];
+  const storageRef = firebase.storage().ref(`Fotos/${file.name}`);
+  const storageRef = firebase.storage().ref('/fotos/');
+  //const task = storageRef.put(file);
+  //const storageRef = firebase.database().ref(`pictures/${file.name}`);
+  //var task = storageRef.put(file);
+
+  task.on(
+    'state_changed',
+    snapshot => {
+      let percentage =
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      this.setState({
+        uploadValue: percentage
+      });
+    },
+    error => {
+      console.error(error.message);
+    },
+    () =>
+      storageRef.getDownloadURL().then(url => {
+        const record = {
+          photoURL: this.state.user.photoURL,
+          displayName: this.state.user.displayName,
+          image: url
+          //image: task.snapshot.downloadURL
+        };
+        const databaseRef = firebase.database().ref('pictures');
+        const newPicture = databaseRef.push();
+        newPicture.set(record);
+      })
+  );
+}
+
+ Upload complete
+ console.log(task.snapshot);
+      storageRef
+        .child(file.name)
+        .getDownloadURL()
+        .then(url => {
+          this.setState({
+            picture: url
+          });
+        });
+*/

@@ -6,17 +6,39 @@ import firebase from 'firebase';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyCgNc_FLBAnpD_90joGLfphWunHY1OYjns',
-  authDomain: 'nierika-7a8d3.firebaseapp.com',
-  databaseURL: 'https://nierika-7a8d3.firebaseio.com',
-  projectId: 'nierika-7a8d3',
-  storageBucket: 'nierika-7a8d3.appspot.com',
-  messagingSenderId: '795639442168'
-});
+console.log('hola desde index, Gloria');
+/*
+db.collection('users')
+  .add({
+    first: 'Ada',
+    last: 'Lovelace',
+    born: 1815
+  })
+  .then(function(docRef) {
+    console.log('Document written with ID: ', docRef.id);
+  })
+  .catch(function(error) {
+    console.error('Error adding document: ', error);
+  });
 
-//ReactDOM.render(<App />, document.getElementById('root'));
+  
+// Add a new document in collection "cities"
+db.collection('cities')
+  .doc('LA')
+  .set({
+    name: 'Los Angeles',
+    state: 'CA',
+    country: 'USA'
+  })
+  .then(function() {
+    console.log('Document successfully written!');
+  })
+  .catch(function(error) {
+    console.error('Error writing document: ', error);
+  });
+ReactDOM.render(<App />, document.getElementById('root'));
 //registerServiceWorker();
+*/
 
 //ReactDOM.render(<Splash />, document.getElementById('root'), () => {
 //  setTimeout(() => {
