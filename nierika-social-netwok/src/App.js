@@ -5,6 +5,8 @@ import 'semantic-ui-css/semantic.min.css';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Splash from './components/Splash';
+//import firebase from 'firebase';
+console.log('holi desde app');
 
 class App extends Component {
   constructor(props) {
@@ -12,11 +14,12 @@ class App extends Component {
     this.state = {
       splashEnded: false
     };
+    console.log(this.state.splashEnded);
   }
 
   componentDidMount() {
     if (!this.state.splashEnded) {
-      setTimeout(() => this.setState({ splashEnded: true }), 3000);
+      setTimeout(() => this.setState({ splashEnded: true }), 2000);
     }
   }
   render() {
